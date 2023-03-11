@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import styles from './Item.module.scss';
+import styles from './Card.module.scss';
 
 type Props = {
   children: ReactNode;
