@@ -1,0 +1,34 @@
+.button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+
+  background: #FFFFFF;
+  outline: 1px solid #E2E3E5;
+  outline-offset: -1px;
+  border-radius: 6px;
+  cursor: pointer;
+
+  text-align: center;
+  color: #000000;
+
+  &:focus {
+    outline: 1px solid #E2E3E5;
+  }
+  &:active {
+    outline: 2px solid #5D5FEF;
+    outline-offset: -2px;
+  }
+
+  &_2col {
+    grid-column: span 2;
+  }
+
+  &_blue {
+    background: #5D5FEF;
+
+    color: #FFFFFF;
+  }
+}

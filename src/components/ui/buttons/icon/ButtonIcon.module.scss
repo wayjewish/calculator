@@ -1,0 +1,28 @@
+.button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  
+  height: 36px;
+  padding: 8px 12px;
+
+  border-radius: 5px;
+  cursor: pointer;
+
+  color: #4D5562;
+
+  & svg * {
+    stroke: #4D5562;
+  }
+
+  &_active {
+    background: #FFFFFF;
+    border: 1px solid #E2E3E5;
+
+    & svg * {
+      stroke: #5D5FEF;
+    }
+  }
+}
