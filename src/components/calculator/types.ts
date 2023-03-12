@@ -6,7 +6,8 @@ export enum CalcNamesItems {
 }
 
 export type CalcItem = {
-  name: CalcNamesItems;
+  id: CalcNamesItems;
+  index: number;
 };
 
 export const calcTypeItem = 'item';

@@ -3,23 +3,25 @@ import { useDrag } from 'react-dnd';
 
 import styles from './Drag.module.scss';
 
-import { CalcNamesItems } from '../../calculator/types';
+import { CalcItem } from '../../calculator/types';
 
 type Props = {
   children: ReactNode;
   type: string;
-  name: CalcNamesItems;
+  item: CalcItem;
   canDrag?: boolean;
+  end?: () => void;
 };
 
-const Drag: React.FC<Props> = ({ children, type, name, canDrag }) => {
-  const [{ isDragging }, drag] = useDrag({
+const Drag: React.FC<Props> = ({ children, type, item, canDrag, end }) => {
+  const [, drag] = useDrag({
     type: type,
-    item: { name: name },
+    item: item,
     canDrag: canDrag,
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
+    end() {
+      if (end) end();
+      console.log('end');
+    },
   });
 
   return (

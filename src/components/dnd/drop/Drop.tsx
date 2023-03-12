@@ -11,7 +11,6 @@ type Props = {
 const Drop: React.FC<Props> = ({ children, accept }) => {
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: accept,
-    //drop: () => ({ name: 'canvas' }),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
