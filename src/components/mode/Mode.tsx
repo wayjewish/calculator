@@ -6,7 +6,7 @@ import ButtonIcon from '../ui/buttons/icon/ButtonIcon';
 
 import styles from './Mode.module.scss';
 
-function Mode() {
+const Mode: React.FC = () => {
   return (
     <div className={styles.mode}>
       <ButtonIcon isActive={true}>
@@ -19,6 +19,6 @@ function Mode() {
       </ButtonIcon>
     </div>
   );
-}
+};
 
 export default Mode;

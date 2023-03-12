@@ -3,7 +3,7 @@ import Button from '../../ui/buttons/default/Button';
 
 import styles from './Operations.module.scss';
 
-function Operations() {
+const Operations: React.FC = () => {
   return (
     <div className={styles.operations}>
       <Button>/</Button>
@@ -12,6 +12,6 @@ function Operations() {
       <Button>+</Button>
     </div>
   );
-}
+};
 
 export default Operations;

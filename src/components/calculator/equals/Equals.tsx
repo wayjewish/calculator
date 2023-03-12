@@ -3,12 +3,12 @@ import Button from '../../ui/buttons/default/Button';
 
 import styles from './Equals.module.scss';
 
-function Equals() {
+const Equals: React.FC = () => {
   return (
     <div className={styles.equals}>
       <Button color="blue">=</Button>
     </div>
   );
-}
+};
 
 export default Equals;

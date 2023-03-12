@@ -3,7 +3,7 @@ import Button from '../../ui/buttons/default/Button';
 
 import styles from './Numbers.module.scss';
 
-function Numbers() {
+const Numbers: React.FC = () => {
   return (
     <div className={styles.numbers}>
       <Button>7</Button>
@@ -19,6 +19,6 @@ function Numbers() {
       <Button>,</Button>
     </div>
   );
-}
+};
 
 export default Numbers;
