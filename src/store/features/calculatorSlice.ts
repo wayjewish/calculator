@@ -23,7 +23,8 @@ export const calculatorSlice = createSlice({
 
       console.log('addItem', id, index);
 
-      state.items.splice(index || state.items.length, 0, id);
+      const newIndex = index !== null ? index : state.items.length;
+      state.items.splice(newIndex, 0, id);
     },
     removeItem: (state, action: PayloadAction<CalcItemId>) => {
       const index = state.items.indexOf(action.payload);

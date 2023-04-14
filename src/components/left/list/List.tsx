@@ -36,7 +36,7 @@ const List: React.FC = () => {
   return (
     <div className={styles.list}>
       {itemsDefault.map((item: CalcItem) => {
-        console.log(items, item.id, !items.includes(item.id));
+        //console.log(items, item.id, !items.includes(item.id));
 
         const isActive = items.includes(item.id);
 

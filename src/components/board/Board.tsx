@@ -21,26 +21,35 @@ const Board: React.FC = () => {
 
   const [insertIndex, setInsertIndex] = useState<number | null>(null);
 
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: calcItemType,
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
+  const [{ isOver }, drop] = useDrop(
+    () => ({
+      accept: calcItemType,
+      collect: (monitor) => ({
+        isOver: monitor.isOver(),
+      }),
+      drop: (item: CalcItem) => {
+        dispatch(addItem({ id: item.id, index: insertIndex }));
+      },
     }),
-    drop: (item: CalcItem) => {
-      console.log('dropBoard', { id: item.id, index: insertIndex });
-      dispatch(addItem({ id: item.id, index: insertIndex }));
-      setInsertIndex(null);
-    },
-  }));
+    [insertIndex],
+  );
 
   useEffect(() => {
-    console.log('insertIndex', insertIndex);
-  }, [insertIndex]);
-
-  useEffect(() => {
-    console.log('isOver', isOver);
     if (!isOver) setInsertIndex(null);
   }, [isOver]);
+
+  const renderCalendarComponent = (id: CalcItemId) => {
+    switch (id) {
+      case CalcItemId.display:
+        return <Display />;
+      case CalcItemId.operations:
+        return <Operations />;
+      case CalcItemId.numbers:
+        return <Numbers />;
+      case CalcItemId.equals:
+        return <Equals />;
+    }
+  };
 
   return (
     <div ref={drop} className={styles.board}>
@@ -49,76 +58,16 @@ const Board: React.FC = () => {
           {items.map((id: CalcItemId, index) => {
             const item: CalcItem = { id: id, index: index };
 
-            switch (id) {
-              case CalcItemId.display:
-                return (
-                  <div key={id}>
-                    <DropItem
-                      accept={calcItemType}
-                      item={item}
-                      setInsertIndex={(index: number) => setInsertIndex(index)}
-                    >
-                      <Drag type={calcItemType} item={item}>
-                        {insertIndex === index && <>insert</>}
-                        <Card>
-                          <Display />
-                        </Card>
-                      </Drag>
-                    </DropItem>
-                  </div>
-                );
-              case CalcItemId.operations:
-                return (
-                  <div key={id}>
-                    <DropItem
-                      accept={calcItemType}
-                      item={item}
-                      setInsertIndex={(index: number) => setInsertIndex(index)}
-                    >
-                      <Drag type={calcItemType} item={item}>
-                        {insertIndex === index && <>insert</>}
-                        <Card>
-                          <Operations />
-                        </Card>
-                      </Drag>
-                    </DropItem>
-                  </div>
-                );
-              case CalcItemId.numbers:
-                return (
-                  <div key={id}>
-                    <DropItem
-                      accept={calcItemType}
-                      item={item}
-                      setInsertIndex={(index: number) => setInsertIndex(index)}
-                    >
-                      <Drag type={calcItemType} item={item}>
-                        {insertIndex === index && <>insert</>}
-                        <Card>
-                          <Numbers />
-                        </Card>
-                      </Drag>
-                    </DropItem>
-                  </div>
-                );
-              case CalcItemId.equals:
-                return (
-                  <div key={id}>
-                    <DropItem
-                      accept={calcItemType}
-                      item={item}
-                      setInsertIndex={(index: number) => setInsertIndex(index)}
-                    >
-                      <Drag type={calcItemType} item={item}>
-                        {insertIndex === index && <>insert</>}
-                        <Card>
-                          <Equals />
-                        </Card>
-                      </Drag>
-                    </DropItem>
-                  </div>
-                );
-            }
+            return (
+              <div key={id}>
+                <DropItem accept={calcItemType} item={item} setInsertIndex={(index: number) => setInsertIndex(index)}>
+                  <Drag type={calcItemType} item={item}>
+                    {insertIndex === index && <>insert</>}
+                    <Card>{renderCalendarComponent(id)}</Card>
+                  </Drag>
+                </DropItem>
+              </div>
+            );
           })}
 
           {insertIndex !== null && insertIndex === items.length && <>insert</>}
