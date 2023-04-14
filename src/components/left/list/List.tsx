@@ -8,24 +8,24 @@ import Drag from '../../dnd/drag/Drag';
 
 import { useAppSelector } from '../../../store/hooks';
 
-import { CalcItem, CalcNamesItems, calcTypeItem } from '../../calculator/types';
+import { CalcItem, CalcItemId, calcItemType } from '../../calculator/types';
 import styles from './List.module.scss';
 
 const itemsDefault: CalcItem[] = [
   {
-    id: CalcNamesItems.display,
+    id: CalcItemId.display,
     index: 0,
   },
   {
-    id: CalcNamesItems.operations,
+    id: CalcItemId.operations,
     index: 1,
   },
   {
-    id: CalcNamesItems.numbers,
+    id: CalcItemId.numbers,
     index: 2,
   },
   {
-    id: CalcNamesItems.equals,
+    id: CalcItemId.equals,
     index: 3,
   },
 ];
@@ -37,35 +37,38 @@ const List: React.FC = () => {
     <div className={styles.list}>
       {itemsDefault.map((item: CalcItem) => {
         console.log(items, item.id, !items.includes(item.id));
+
+        const isActive = items.includes(item.id);
+
         switch (item.id) {
-          case CalcNamesItems.display:
+          case CalcItemId.display:
             return (
-              <Drag key={item.id} type={calcTypeItem} item={item} canDrag={!items.includes(item.id)}>
-                <Card notActive={items.includes(item.id)}>
+              <Drag key={item.id} type={calcItemType} item={item} canDrag={!isActive}>
+                <Card notActive={isActive}>
                   <Display />
                 </Card>
               </Drag>
             );
-          case CalcNamesItems.operations:
+          case CalcItemId.operations:
             return (
-              <Drag key={item.id} type={calcTypeItem} item={item} canDrag={!items.includes(item.id)}>
-                <Card notActive={items.includes(item.id)}>
+              <Drag key={item.id} type={calcItemType} item={item} canDrag={!isActive}>
+                <Card notActive={isActive}>
                   <Operations />
                 </Card>
               </Drag>
             );
-          case CalcNamesItems.numbers:
+          case CalcItemId.numbers:
             return (
-              <Drag key={item.id} type={calcTypeItem} item={item} canDrag={!items.includes(item.id)}>
-                <Card notActive={items.includes(item.id)}>
+              <Drag key={item.id} type={calcItemType} item={item} canDrag={!isActive}>
+                <Card notActive={isActive}>
                   <Numbers />
                 </Card>
               </Drag>
             );
-          case CalcNamesItems.equals:
+          case CalcItemId.equals:
             return (
-              <Drag key={item.id} type={calcTypeItem} item={item} canDrag={!items.includes(item.id)}>
-                <Card notActive={items.includes(item.id)}>
+              <Drag key={item.id} type={calcItemType} item={item} canDrag={!isActive}>
+                <Card notActive={isActive}>
                   <Equals />
                 </Card>
               </Drag>

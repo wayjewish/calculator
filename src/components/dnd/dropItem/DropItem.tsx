@@ -8,20 +8,14 @@ type Props = {
   children: ReactNode;
   accept: string;
   item: CalcItem;
-  resInsertIndex: (index: number | null) => void;
+  setInsertIndex: (index: number) => void;
 };
 
-const DropItem: React.FC<Props> = ({ children, accept, item, resInsertIndex }) => {
+const DropItem: React.FC<Props> = ({ children, accept, item, setInsertIndex }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const [, drop] = useDrop(() => ({
     accept: accept,
-    drop: (itemActive: CalcItem) => {
-      console.log('dropItem', itemActive, item);
-      //dispatch(addItem(item.name));
-
-      resInsertIndex(null);
-    },
     hover(itemActive: CalcItem, monitor) {
       //console.log('hover', itemActive, item);
 
@@ -48,7 +42,7 @@ const DropItem: React.FC<Props> = ({ children, accept, item, resInsertIndex }) =
 
       console.log(clientY < middleY, clientY > middleY, index);
 
-      resInsertIndex(index);
+      setInsertIndex(index);
     },
   }));
 

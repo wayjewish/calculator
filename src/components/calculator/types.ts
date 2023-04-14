@@ -1,4 +1,4 @@
-export enum CalcNamesItems {
+export enum CalcItemId {
   display = 'Display',
   operations = 'Operations',
   numbers = 'Numbers',
@@ -6,8 +6,8 @@ export enum CalcNamesItems {
 }
 
 export type CalcItem = {
-  id: CalcNamesItems;
+  id: CalcItemId;
   index: number;
 };
 
-export const calcTypeItem = 'item';
+export const calcItemType = 'item';
