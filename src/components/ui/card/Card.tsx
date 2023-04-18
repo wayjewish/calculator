@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import cx from 'classnames';
 
 import styles from './Card.module.scss';
 
@@ -8,7 +9,7 @@ type Props = {
 };
 
 const Card: React.FC<Props> = ({ children, notActive }) => {
-  return <div className={`${styles.card} ${notActive && styles.card_notActive}`}>{children}</div>;
+  return <div className={cx(styles.card, { [styles.card_notActive]: notActive })}>{children}</div>;
 };
 
 export default Card;

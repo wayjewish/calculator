@@ -3,7 +3,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import Mode from '../mode/Mode';
-import List from '../left/list/List';
+import List from '../calculator/list/List';
 
 import styles from './App.module.scss';
 import Board from '../board/Board';

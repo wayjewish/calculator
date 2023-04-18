@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import cx from 'classnames';
 
 import styles from './ButtonIcon.module.scss';
 
@@ -8,7 +9,7 @@ type Props = {
 };
 
 const ButtonIcon: React.FC<Props> = ({ children, isActive }) => {
-  return <button className={`${styles.button} ${isActive && styles.button_active}`}>{children}</button>;
+  return <button className={cx(styles.button, { [styles.button_active]: isActive })}>{children}</button>;
 };
 
 export default ButtonIcon;

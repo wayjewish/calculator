@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import IconImg from '../../../../public/icons/img.svg';
 
 import styles from './DropZone.module.scss';
@@ -9,7 +10,7 @@ type Props = {
 
 const DropZone: React.FC<Props> = ({ isOver }) => {
   return (
-    <div className={`${styles.dropZone} ${isOver && styles.dropZone_isOver}`}>
+    <div className={cx(styles.dropZone, { [styles.dropZone_isOver]: isOver })}>
       <div className={styles.dropZone__content}></div>
       <IconImg />
       <div className={styles.dropZone__textWrap}>

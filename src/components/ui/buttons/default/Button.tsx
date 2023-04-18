@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import cx from 'classnames';
 
 import styles from './Button.module.scss';
 
@@ -9,11 +10,11 @@ type Props = {
 };
 
 const Button: React.FC<Props> = ({ children, color, cols }) => {
-  const classes = [`${styles.button}`];
-  if (color) classes.push(`${styles[`button_${color}`]}`);
-  if (cols) classes.push(`${styles[`button_${cols}col`]}`);
-
-  return <button className={classes.join(' ')}>{children}</button>;
+  return (
+    <button className={cx(styles.button, { [styles[`button_${color}`]]: color, [styles[`button_${cols}col`]]: cols })}>
+      {children}
+    </button>
+  );
 };
 
 export default Button;
