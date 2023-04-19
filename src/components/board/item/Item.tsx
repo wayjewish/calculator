@@ -49,12 +49,12 @@ const Item: React.FC<Props> = ({ item }) => {
     item: item,
   }));
 
-  drop(ref);
-  drag(ref);
-
   const handleDoubleClick = () => {
     dispatch(removeItem(item.id));
   };
+
+  drop(ref);
+  drag(ref);
 
   return (
     <div

@@ -1,12 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CalcItemId } from '../../components/calculator/types';
+import { ModeId } from '../../components/mode/types';
 
 export interface CalculatorState {
+  mode: ModeId;
   items: CalcItemId[];
   insertIndex: number | null;
 }
 
 const initialState: CalculatorState = {
+  mode: ModeId.runtime,
   items: [],
   insertIndex: null,
 };
@@ -15,6 +18,9 @@ export const calculatorSlice = createSlice({
   name: 'calculator',
   initialState,
   reducers: {
+    changeMode: (state, action: PayloadAction<ModeId>) => {
+      state.mode = action.payload;
+    },
     addItem: (state, action: PayloadAction<{ id: CalcItemId; index: number | null }>) => {
       const { id, index } = action.payload;
 
@@ -38,6 +44,6 @@ export const calculatorSlice = createSlice({
   },
 });
 
-export const { addItem, removeItem, setInsertIndex } = calculatorSlice.actions;
+export const { changeMode, addItem, removeItem, setInsertIndex } = calculatorSlice.actions;
 
 export default calculatorSlice.reducer;
