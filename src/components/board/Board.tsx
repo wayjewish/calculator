@@ -1,25 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDrop } from 'react-dnd';
+import { XYCoord, useDrop } from 'react-dnd';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
-import { addItem } from '../../store/features/calculatorSlice';
+import { addItem, setInsertIndex } from '../../store/features/calculatorSlice';
 import { CalcItem, CalcItemId, calcItemType } from '../calculator/types';
 
-import Drag from '../dnd/drag/Drag';
-import DropItem from '../dnd/dropItem/DropItem';
+import Item from './item/Item';
 import DropZone from '../ui/dropZone/DropZone';
-import Card from '../ui/card/Card';
-import CalculatorItem from '../calculator/calculatorItem/CalculatorItem';
 
 import styles from './Board.module.scss';
 
 const Board: React.FC = () => {
-  const { items } = useAppSelector((state) => state.calculator);
+  const { items, insertIndex } = useAppSelector((state) => state.calculator);
   const dispatch = useAppDispatch();
 
-  const ref = useRef<HTMLDivElement>(null);
-  const [insertIndex, setInsertIndex] = useState<number | null>(null);
+  const refBoard = useRef<HTMLDivElement>(null);
+  const refList = useRef<HTMLDivElement>(null);
 
-  const [{ isOver, isOverShallow }, drop] = useDrop(
+  const [{ isOver, isOverShallow }, dropBoard] = useDrop(
     () => ({
       accept: calcItemType,
       collect: (monitor) => ({
@@ -29,61 +26,48 @@ const Board: React.FC = () => {
       drop: (item: CalcItem) => {
         console.log('Board drop');
         dispatch(addItem({ id: item.id, index: insertIndex }));
-        setInsertIndex(null);
+        dispatch(setInsertIndex(null));
       },
-      hover: (item: CalcItem) => {
-        //console.log('Board hover', item.index, items.length);
+      hover: (item: CalcItem, monitor) => {
+        if (!refList.current) return;
+        if (items.includes(item.id) && item.index === items.length - 1) return;
+        if (insertIndex === items.length) return;
 
-        if (!ref.current) return;
-        if (!(items.length > 0)) return;
-        if (item.index === items.length - 1) return;
+        const boundingRect = refList.current.getBoundingClientRect();
+        const bottomY = boundingRect.bottom - boundingRect.top;
 
-        setInsertIndex(items.length);
+        const clientOffset = monitor.getClientOffset();
+        const clientY = (clientOffset as XYCoord).y - boundingRect.top;
+
+        if (!(clientY > bottomY)) return;
+        dispatch(setInsertIndex(items.length));
       },
     }),
-    [insertIndex, items],
+    [items, insertIndex],
   );
 
   useEffect(() => {
     console.log('insertIndex', insertIndex);
   }, [insertIndex]);
 
-  /*useEffect(() => {
-    console.log('isOver', isOver);
-    if (!isOver) setInsertIndex(null);
-  }, [isOver]);*/
-
   useEffect(() => {
-    console.log('isOverShallow', isOverShallow);
-  }, [isOverShallow]);
+    console.log('isOver', isOver);
+    if (!isOver) dispatch(setInsertIndex(null));
+  }, [isOver]);
 
-  drop(ref);
+  dropBoard(refBoard);
 
   return (
-    <div ref={ref} className={styles.board}>
+    <div ref={refBoard} className={styles.board}>
       {items.length > 0 && (
-        <div
-          className={styles.board__list}
-          onMouseEnter={() => {
-            console.log('onMouseEnter');
-          }}
-          onMouseLeave={() => {
-            console.log('onMouseLeave');
-          }}
-        >
+        <div ref={refList} className={styles.board__list}>
           {items.map((id: CalcItemId, index) => {
             const item: CalcItem = { id: id, index: index };
 
             return (
               <div key={id}>
                 {insertIndex === index && <>insert</>}
-                <DropItem accept={calcItemType} item={item} setInsertIndex={(index: number) => setInsertIndex(index)}>
-                  <Drag type={calcItemType} item={item}>
-                    <Card>
-                      <CalculatorItem id={id} />
-                    </Card>
-                  </Drag>
-                </DropItem>
+                <Item item={item} />
               </div>
             );
           })}

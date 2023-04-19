@@ -9,7 +9,7 @@ type Props = {
   id: CalcItemId;
 };
 
-const CalculatorItem: React.FC<Props> = ({ id }) => {
+const Item: React.FC<Props> = ({ id }) => {
   const renderCalculatorComponent = (id: CalcItemId) => {
     switch (id) {
       case CalcItemId.display:
@@ -26,4 +26,4 @@ const CalculatorItem: React.FC<Props> = ({ id }) => {
   return <>{renderCalculatorComponent(id)}</>;
 };
 
-export default CalculatorItem;
+export default Item;

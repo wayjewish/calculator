@@ -3,10 +3,12 @@ import { CalcItemId } from '../../components/calculator/types';
 
 export interface CalculatorState {
   items: CalcItemId[];
+  insertIndex: number | null;
 }
 
 const initialState: CalculatorState = {
   items: [],
+  insertIndex: null,
 };
 
 export const calculatorSlice = createSlice({
@@ -32,9 +34,12 @@ export const calculatorSlice = createSlice({
         state.items.splice(index, 1);
       }
     },
+    setInsertIndex: (state, action: PayloadAction<number | null>) => {
+      state.insertIndex = action.payload;
+    },
   },
 });
 
-export const { addItem, removeItem } = calculatorSlice.actions;
+export const { addItem, removeItem, setInsertIndex } = calculatorSlice.actions;
 
 export default calculatorSlice.reducer;
