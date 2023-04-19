@@ -3,7 +3,7 @@ import CalculatorItem from '../../calculator/item/Item';
 import { CalcItem, calcItemType } from '../../calculator/types';
 import { XYCoord, useDrag, useDrop } from 'react-dnd';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { setInsertIndex } from '../../../store/features/calculatorSlice';
+import { removeItem, setInsertIndex } from '../../../store/features/calculatorSlice';
 import Card from '../../ui/card/Card';
 
 type Props = {
@@ -52,8 +52,17 @@ const Item: React.FC<Props> = ({ item }) => {
   drop(ref);
   drag(ref);
 
+  const handleDoubleClick = () => {
+    dispatch(removeItem(item.id));
+  };
+
   return (
-    <div ref={ref}>
+    <div
+      ref={ref}
+      onClick={(e) => {
+        if (e.detail === 2) handleDoubleClick();
+      }}
+    >
       <Card>
         <CalculatorItem id={item.id} />
       </Card>

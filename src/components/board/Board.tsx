@@ -24,7 +24,6 @@ const Board: React.FC = () => {
         isOverShallow: monitor.isOver({ shallow: true }),
       }),
       drop: (item: CalcItem) => {
-        console.log('Board drop');
         dispatch(addItem({ id: item.id, index: insertIndex }));
         dispatch(setInsertIndex(null));
       },
@@ -47,11 +46,6 @@ const Board: React.FC = () => {
   );
 
   useEffect(() => {
-    console.log('insertIndex', insertIndex);
-  }, [insertIndex]);
-
-  useEffect(() => {
-    console.log('isOver', isOver);
     if (!isOver) dispatch(setInsertIndex(null));
   }, [isOver]);
 

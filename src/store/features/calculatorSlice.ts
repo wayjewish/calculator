@@ -23,8 +23,6 @@ export const calculatorSlice = createSlice({
         state.items.splice(indexOf, 1);
       }
 
-      console.log('addItem', id, index);
-
       const newIndex = index !== null ? index : state.items.length;
       state.items.splice(newIndex, 0, id);
     },
