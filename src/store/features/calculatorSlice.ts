@@ -9,7 +9,7 @@ export interface CalculatorState {
 }
 
 const initialState: CalculatorState = {
-  mode: ModeId.runtime,
+  mode: ModeId.constructor,
   items: [],
   insertIndex: null,
 };

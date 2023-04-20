@@ -5,9 +5,10 @@ import { addItem, setInsertIndex } from '../../store/features/calculatorSlice';
 import { CalcItem, CalcItemId, calcItemType } from '../calculator/types';
 
 import Item from './item/Item';
-import DropZone from '../ui/dropZone/DropZone';
+import DropZone from './dropZone/DropZone';
 
 import styles from './Board.module.scss';
+import InsertPoint from './insertPoint/InsertPoint';
 
 const Board: React.FC = () => {
   const { items, insertIndex } = useAppSelector((state) => state.calculator);
@@ -60,13 +61,13 @@ const Board: React.FC = () => {
 
             return (
               <div key={id}>
-                {insertIndex === index && <>insert</>}
+                {insertIndex === index && <InsertPoint />}
                 <Item item={item} />
               </div>
             );
           })}
 
-          {insertIndex === items.length && <>insert</>}
+          {insertIndex === items.length && <InsertPoint isLast={true} />}
         </div>
       )}
 

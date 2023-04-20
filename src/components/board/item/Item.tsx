@@ -5,13 +5,14 @@ import { XYCoord, useDrag, useDrop } from 'react-dnd';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { removeItem, setInsertIndex } from '../../../store/features/calculatorSlice';
 import Card from '../../ui/card/Card';
+import { ModeId } from '../../mode/types';
 
 type Props = {
   item: CalcItem;
 };
 
 const Item: React.FC<Props> = ({ item }) => {
-  const { items, insertIndex } = useAppSelector((state) => state.calculator);
+  const { items, insertIndex, mode } = useAppSelector((state) => state.calculator);
   const dispatch = useAppDispatch();
 
   const ref = useRef<HTMLDivElement>(null);
@@ -36,6 +37,8 @@ const Item: React.FC<Props> = ({ item }) => {
           return;
         }
 
+        console.log('hover Item', itemActive, item, clientY, middleY, clientY > middleY);
+
         let index = item.index;
         if (clientY > middleY) index++;
         dispatch(setInsertIndex(index));
@@ -44,13 +47,16 @@ const Item: React.FC<Props> = ({ item }) => {
     [items, insertIndex],
   );
 
-  const [, drag] = useDrag(() => ({
-    type: calcItemType,
-    item: item,
-  }));
+  const [, drag] = useDrag(
+    () => ({
+      type: calcItemType,
+      item: item,
+    }),
+    [items, insertIndex],
+  );
 
   const handleDoubleClick = () => {
-    dispatch(removeItem(item.id));
+    if (mode === ModeId.constructor) dispatch(removeItem(item.id));
   };
 
   drop(ref);
