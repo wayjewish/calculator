@@ -1,5 +1,7 @@
 import React from 'react';
+import { useAppSelector } from '../../store/hooks';
 import { CalcItem, CalcItemId } from '../calculator/types';
+import { ModeId } from '../mode/types';
 import Item from './item/Item';
 
 import styles from './Sidebar.module.scss';
@@ -24,11 +26,11 @@ const itemsDefault: CalcItem[] = [
 ];
 
 const Sidebar: React.FC = () => {
+  const { mode } = useAppSelector((state) => state.calculator);
+
   return (
     <div className={styles.sidebar}>
-      {itemsDefault.map((item: CalcItem) => (
-        <Item key={item.id} item={item} />
-      ))}
+      {mode === ModeId.constructor && itemsDefault.map((item: CalcItem) => <Item key={item.id} item={item} />)}
     </div>
   );
 };

@@ -9,22 +9,23 @@ import DropZone from './dropZone/DropZone';
 
 import styles from './Board.module.scss';
 import InsertPoint from './insertPoint/InsertPoint';
+import { ModeId } from '../mode/types';
 
 const Board: React.FC = () => {
-  const { items, insertIndex } = useAppSelector((state) => state.calculator);
+  const { items, insertIndex, mode } = useAppSelector((state) => state.calculator);
   const dispatch = useAppDispatch();
 
   const refBoard = useRef<HTMLDivElement>(null);
   const refList = useRef<HTMLDivElement>(null);
 
-  const [{ isOver, isOverShallow }, dropBoard] = useDrop(
+  const [{ isOver }, dropBoard] = useDrop(
     () => ({
       accept: calcItemType,
       collect: (monitor) => ({
         isOver: monitor.isOver(),
-        isOverShallow: monitor.isOver({ shallow: true }),
       }),
       drop: (item: CalcItem) => {
+        if (items.length > 0 && insertIndex === null) return;
         dispatch(addItem({ id: item.id, index: insertIndex }));
         dispatch(setInsertIndex(null));
       },
@@ -71,7 +72,7 @@ const Board: React.FC = () => {
         </div>
       )}
 
-      {!(items.length > 0) && <DropZone isOver={isOver} />}
+      {mode === ModeId.constructor && !(items.length > 0) && <DropZone isOver={isOver} />}
     </div>
   );
 };

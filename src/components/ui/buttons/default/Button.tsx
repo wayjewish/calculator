@@ -7,11 +7,15 @@ type Props = {
   children: ReactNode;
   color?: 'blue';
   cols?: 2;
+  onClick?: () => void;
 };
 
-const Button: React.FC<Props> = ({ children, color, cols }) => {
+const Button: React.FC<Props> = ({ children, color, cols, onClick }) => {
   return (
-    <button className={cx(styles.button, { [styles[`button_${color}`]]: color, [styles[`button_${cols}col`]]: cols })}>
+    <button
+      className={cx(styles.button, { [styles[`button_${color}`]]: color, [styles[`button_${cols}col`]]: cols })}
+      onClick={onClick}
+    >
       {children}
     </button>
   );

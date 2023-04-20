@@ -37,8 +37,6 @@ const Item: React.FC<Props> = ({ item }) => {
           return;
         }
 
-        console.log('hover Item', itemActive, item, clientY, middleY, clientY > middleY);
-
         let index = item.index;
         if (clientY > middleY) index++;
         dispatch(setInsertIndex(index));
@@ -51,8 +49,9 @@ const Item: React.FC<Props> = ({ item }) => {
     () => ({
       type: calcItemType,
       item: item,
+      canDrag: mode === ModeId.constructor,
     }),
-    [items, insertIndex],
+    [items, insertIndex, mode],
   );
 
   const handleDoubleClick = () => {

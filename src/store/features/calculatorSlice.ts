@@ -6,12 +6,20 @@ export interface CalculatorState {
   mode: ModeId;
   items: CalcItemId[];
   insertIndex: number | null;
+  firstValue: string | null;
+  secondValue: string | null;
+  resultValue: string | null;
+  operator: string | null;
 }
 
 const initialState: CalculatorState = {
   mode: ModeId.constructor,
   items: [],
   insertIndex: null,
+  firstValue: null,
+  secondValue: null,
+  resultValue: null,
+  operator: null,
 };
 
 export const calculatorSlice = createSlice({
@@ -41,9 +49,30 @@ export const calculatorSlice = createSlice({
     setInsertIndex: (state, action: PayloadAction<number | null>) => {
       state.insertIndex = action.payload;
     },
+    setFirstValue: (state, action: PayloadAction<string | null>) => {
+      state.firstValue = action.payload;
+    },
+    setSecondValue: (state, action: PayloadAction<string | null>) => {
+      state.secondValue = action.payload;
+    },
+    setResultValue: (state, action: PayloadAction<string | null>) => {
+      state.resultValue = action.payload;
+    },
+    setOperator: (state, action: PayloadAction<string | null>) => {
+      state.operator = action.payload;
+    },
   },
 });
 
-export const { changeMode, addItem, removeItem, setInsertIndex } = calculatorSlice.actions;
+export const {
+  changeMode,
+  addItem,
+  removeItem,
+  setInsertIndex,
+  setFirstValue,
+  setSecondValue,
+  setResultValue,
+  setOperator,
+} = calculatorSlice.actions;
 
 export default calculatorSlice.reducer;
