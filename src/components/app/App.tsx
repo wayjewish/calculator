@@ -24,6 +24,12 @@ const App: React.FC = () => {
             <Board />
           </DndProvider>
         </div>
+        <div className={styles.container__body}>
+          <DndProvider backend={HTML5Backend}>
+            <Sidebar />
+            <Board />
+          </DndProvider>
+        </div>
       </div>
     </div>
   );
