@@ -24,7 +24,7 @@ const Item: React.FC<Props> = ({ item }) => {
 
   return (
     <div ref={ref}>
-      <Card notActive={isActive}>
+      <Card notActive={isActive} notShadow={isActive} notDrop={isActive}>
         <CalculatorItem id={item.id} />
       </Card>
     </div>

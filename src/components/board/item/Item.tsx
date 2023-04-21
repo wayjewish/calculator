@@ -76,7 +76,7 @@ const Item: React.FC<Props> = ({ item }) => {
         if (e.detail === 2) handleDoubleClick();
       }}
     >
-      <Card>
+      <Card notShadow={true} notDrop={item.id === CalcItemId.display}>
         <CalculatorItem id={item.id} />
       </Card>
     </div>
