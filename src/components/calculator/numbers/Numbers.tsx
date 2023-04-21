@@ -8,7 +8,7 @@ import { ModeId } from '../../mode/types';
 import { setFirstValue, setSecondValue } from '../../../store/features/calculatorSlice';
 
 const Numbers: React.FC = () => {
-  const { mode, firstValue, secondValue, resultValue, operator } = useAppSelector((state) => state.calculator);
+  const { mode, firstValue, secondValue, operator, resultValue } = useAppSelector((state) => state.calculator);
   const dispatch = useAppDispatch();
 
   const handleClick = (value: string) => {
@@ -19,13 +19,11 @@ const Numbers: React.FC = () => {
       case firstValue !== null && operator === null:
         dispatch(setFirstValue(firstValue + value));
         break;
-      case secondValue === null && operator !== null:
+      case firstValue !== null && operator !== null && secondValue === null:
         dispatch(setSecondValue(value));
         break;
-      case secondValue !== null && operator !== null:
+      case firstValue !== null && operator !== null && secondValue !== null:
         dispatch(setSecondValue(secondValue + value));
-        break;
-      default:
         break;
     }
   };
@@ -38,9 +36,9 @@ const Numbers: React.FC = () => {
       <Button onClick={() => handleClick('4')}>4</Button>
       <Button onClick={() => handleClick('5')}>5</Button>
       <Button onClick={() => handleClick('6')}>6</Button>
-      <Button onClick={() => handleClick('3')}>3</Button>
-      <Button onClick={() => handleClick('2')}>2</Button>
       <Button onClick={() => handleClick('1')}>1</Button>
+      <Button onClick={() => handleClick('2')}>2</Button>
+      <Button onClick={() => handleClick('3')}>3</Button>
       <Button onClick={() => handleClick('0')} cols={2}>
         0
       </Button>

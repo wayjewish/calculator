@@ -61,6 +61,28 @@ export const calculatorSlice = createSlice({
     setOperator: (state, action: PayloadAction<string | null>) => {
       state.operator = action.payload;
     },
+    calculate: (state) => {
+      const { firstValue, operator, secondValue } = state;
+      if (firstValue === null || operator === null || secondValue === null) return;
+
+      const firstNumber = Number(state.firstValue);
+      const secondNumber = Number(state.secondValue);
+
+      switch (operator) {
+        case '/':
+          state.resultValue = (firstNumber / secondNumber).toString();
+          break;
+        case 'х':
+          state.resultValue = (firstNumber * secondNumber).toString();
+          break;
+        case '-':
+          state.resultValue = (firstNumber - secondNumber).toString();
+          break;
+        case '+':
+          state.resultValue = (firstNumber + secondNumber).toString();
+          break;
+      }
+    },
   },
 });
 
@@ -72,6 +94,7 @@ export const {
   setFirstValue,
   setSecondValue,
   setResultValue,
+  calculate,
   setOperator,
 } = calculatorSlice.actions;
 

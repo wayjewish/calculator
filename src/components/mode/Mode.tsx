@@ -1,7 +1,13 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { ModeId } from './types';
-import { changeMode } from '../../store/features/calculatorSlice';
+import {
+  changeMode,
+  setFirstValue,
+  setOperator,
+  setResultValue,
+  setSecondValue,
+} from '../../store/features/calculatorSlice';
 import IconEye from '../../../public/icons/eye.svg';
 import IconSelector from '../../../public/icons/selector.svg';
 import ButtonIcon from '../ui/buttons/icon/ButtonIcon';
@@ -13,6 +19,13 @@ const Mode: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const handleClick = (newMode: ModeId) => {
+    if (newMode === ModeId.constructor) {
+      dispatch(setFirstValue(null));
+      dispatch(setSecondValue(null));
+      dispatch(setOperator(null));
+      dispatch(setResultValue(null));
+    }
+
     dispatch(changeMode(newMode));
   };
 
