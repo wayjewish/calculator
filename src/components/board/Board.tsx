@@ -30,6 +30,11 @@ const Board: React.FC = () => {
         dispatch(setInsertIndex(null));
       },
       hover: (item: CalcItem, monitor) => {
+        if (item.id === CalcItemId.display) {
+          dispatch(setInsertIndex(0));
+          return;
+        }
+
         if (!refList.current) return;
         if (items.includes(item.id) && item.index === items.length - 1) return;
         if (insertIndex === items.length) return;

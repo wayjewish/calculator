@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import CalculatorItem from '../../calculator/item/Item';
-import { CalcItem, calcItemType } from '../../calculator/types';
+import { CalcItem, CalcItemId, calcItemType } from '../../calculator/types';
 import { XYCoord, useDrag, useDrop } from 'react-dnd';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { removeItem, setInsertIndex } from '../../../store/features/calculatorSlice';
@@ -20,9 +20,16 @@ const Item: React.FC<Props> = ({ item }) => {
   const [, drop] = useDrop(
     () => ({
       accept: calcItemType,
-      hover: (itemActive: CalcItem, monitor) => {
+      hover: (itemDrag: CalcItem, monitor) => {
+        if (itemDrag.id === CalcItemId.display) {
+          dispatch(setInsertIndex(0));
+          return;
+        }
+
         if (!ref.current) return;
-        if (itemActive.id === item.id) return;
+        if (itemDrag.id === item.id) return;
+
+        let index = item.index;
 
         const boundingRect = ref.current.getBoundingClientRect();
         const middleY = (boundingRect.bottom - boundingRect.top) / 2;
@@ -31,14 +38,15 @@ const Item: React.FC<Props> = ({ item }) => {
         const clientY = (clientOffset as XYCoord).y - boundingRect.top;
 
         if (
-          (clientY > middleY && itemActive.index === item.index + 1) ||
-          (clientY < middleY && itemActive.index === item.index - 1)
+          (clientY > middleY && itemDrag.index === item.index + 1) ||
+          (clientY < middleY && itemDrag.index === item.index - 1)
         ) {
           return;
         }
 
-        let index = item.index;
+        if (clientY < middleY && item.id === CalcItemId.display) return;
         if (clientY > middleY) index++;
+
         dispatch(setInsertIndex(index));
       },
     }),
@@ -49,7 +57,7 @@ const Item: React.FC<Props> = ({ item }) => {
     () => ({
       type: calcItemType,
       item: item,
-      canDrag: mode === ModeId.constructor,
+      canDrag: item.id !== CalcItemId.display && mode === ModeId.constructor,
     }),
     [items, insertIndex, mode],
   );
