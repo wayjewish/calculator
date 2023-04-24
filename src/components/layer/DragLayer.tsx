@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDragLayer } from 'react-dnd';
 import Card from '../ui/card/Card';
 import CalculatorItem from '../calculator/item/Item';

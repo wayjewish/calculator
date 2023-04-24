@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { ModeId } from './types';
 import {
   changeMode,
   setFirstValue,
@@ -8,11 +7,13 @@ import {
   setResultValue,
   setSecondValue,
 } from '../../store/features/calculatorSlice';
-import IconEye from '../../../public/icons/eye.svg';
-import IconSelector from '../../../public/icons/selector.svg';
+import { ModeId } from './types';
+
 import ButtonIcon from '../ui/buttons/icon/ButtonIcon';
 
 import styles from './Mode.module.scss';
+import IconEye from '../../../public/icons/eye.svg';
+import IconSelector from '../../../public/icons/selector.svg';
 
 const Mode: React.FC = () => {
   const { mode } = useAppSelector((state) => state.calculator);

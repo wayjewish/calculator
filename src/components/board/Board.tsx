@@ -1,15 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { XYCoord, useDrop } from 'react-dnd';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { addItem, setInsertIndex } from '../../store/features/calculatorSlice';
 import { CalcItem, CalcItemId, calcItemType } from '../calculator/types';
+import { ModeId } from '../mode/types';
 
 import Item from './item/Item';
 import DropZone from './dropZone/DropZone';
+import InsertPoint from './insertPoint/InsertPoint';
 
 import styles from './Board.module.scss';
-import InsertPoint from './insertPoint/InsertPoint';
-import { ModeId } from '../mode/types';
 
 const Board: React.FC = () => {
   const { items, insertIndex, mode } = useAppSelector((state) => state.calculator);

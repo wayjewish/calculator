@@ -1,11 +1,12 @@
 import React, { useRef } from 'react';
-import CalculatorItem from '../../calculator/item/Item';
-import { CalcItem, CalcItemId, calcItemType } from '../../calculator/types';
 import { XYCoord, useDrag, useDrop } from 'react-dnd';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { removeItem, setInsertIndex } from '../../../store/features/calculatorSlice';
-import Card from '../../ui/card/Card';
+import { CalcItem, CalcItemId, calcItemType } from '../../calculator/types';
 import { ModeId } from '../../mode/types';
+
+import Card from '../../ui/card/Card';
+import CalculatorItem from '../../calculator/item/Item';
 
 type Props = {
   item: CalcItem;

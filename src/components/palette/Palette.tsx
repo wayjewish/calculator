@@ -2,9 +2,10 @@ import React from 'react';
 import { useAppSelector } from '../../store/hooks';
 import { CalcItem, CalcItemId } from '../calculator/types';
 import { ModeId } from '../mode/types';
+
 import Item from './item/Item';
 
-import styles from './Sidebar.module.scss';
+import styles from './Palette.module.scss';
 
 const itemsDefault: CalcItem[] = [
   {
@@ -25,14 +26,14 @@ const itemsDefault: CalcItem[] = [
   },
 ];
 
-const Sidebar: React.FC = () => {
+const Palette: React.FC = () => {
   const { mode } = useAppSelector((state) => state.calculator);
 
   return (
-    <div className={styles.sidebar}>
+    <div className={styles.palette}>
       {mode === ModeId.constructor && itemsDefault.map((item: CalcItem) => <Item key={item.id} item={item} />)}
     </div>
   );
 };
 
-export default Sidebar;
+export default Palette;

@@ -1,9 +1,9 @@
 import React from 'react';
 import cx from 'classnames';
-
-import styles from './Display.module.scss';
 import { useAppSelector } from '../../../store/hooks';
 import { ModeId } from '../../mode/types';
+
+import styles from './Display.module.scss';
 
 const Display: React.FC = () => {
   const { mode, firstValue, secondValue, resultValue } = useAppSelector((state) => state.calculator);

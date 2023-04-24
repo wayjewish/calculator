@@ -4,11 +4,11 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { TouchBackend } from 'react-dnd-touch-backend';
 
 import Mode from '../mode/Mode';
-import Sidebar from '../sidebar/Sidebar';
+import Palette from '../palette/Palette';
 import Board from '../board/Board';
+import DragLayer from '../layer/DragLayer';
 
 import styles from './App.module.scss';
-import DragLayer from '../layer/DragLayer';
 
 const App: React.FC = () => {
   return (
@@ -20,7 +20,7 @@ const App: React.FC = () => {
         <div className={styles.container__body}>
           <DndProvider backend={TouchBackend} options={{ enableTouchEvents: false, enableMouseEvents: true }}>
             <DragLayer />
-            <Sidebar />
+            <Palette />
             <Board />
           </DndProvider>
         </div>

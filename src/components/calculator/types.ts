@@ -11,3 +11,10 @@ export type CalcItem = {
 };
 
 export const calcItemType = 'item';
+
+export enum CalcOperator {
+  division = '/',
+  multiplication = 'х',
+  subtraction = '-',
+  addition = '+',
+}

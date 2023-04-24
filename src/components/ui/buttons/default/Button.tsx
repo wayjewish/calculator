@@ -5,8 +5,8 @@ import styles from './Button.module.scss';
 
 type Props = {
   children: ReactNode;
-  color?: 'blue';
-  cols?: 2;
+  color?: string;
+  cols?: number;
   onClick?: () => void;
 };
 

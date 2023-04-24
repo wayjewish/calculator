@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CalcItemId } from '../../components/calculator/types';
+import { CalcItemId, CalcOperator } from '../../components/calculator/types';
 import { ModeId } from '../../components/mode/types';
 
 export interface CalculatorState {
@@ -9,7 +9,7 @@ export interface CalculatorState {
   firstValue: string | null;
   secondValue: string | null;
   resultValue: string | null;
-  operator: string | null;
+  operator: CalcOperator | null;
 }
 
 const initialState: CalculatorState = {
@@ -58,7 +58,7 @@ export const calculatorSlice = createSlice({
     setResultValue: (state, action: PayloadAction<string | null>) => {
       state.resultValue = action.payload;
     },
-    setOperator: (state, action: PayloadAction<string | null>) => {
+    setOperator: (state, action: PayloadAction<CalcOperator | null>) => {
       state.operator = action.payload;
     },
     calculate: (state) => {
@@ -69,16 +69,16 @@ export const calculatorSlice = createSlice({
       const secondNumber = Number(state.secondValue);
 
       switch (operator) {
-        case '/':
+        case CalcOperator.division:
           state.resultValue = (firstNumber / secondNumber).toString();
           break;
-        case 'х':
+        case CalcOperator.multiplication:
           state.resultValue = (firstNumber * secondNumber).toString();
           break;
-        case '-':
+        case CalcOperator.subtraction:
           state.resultValue = (firstNumber - secondNumber).toString();
           break;
-        case '+':
+        case CalcOperator.addition:
           state.resultValue = (firstNumber + secondNumber).toString();
           break;
       }

@@ -8,7 +8,7 @@ import { ModeId } from '../../mode/types';
 import { setFirstValue, setSecondValue } from '../../../store/features/calculatorSlice';
 
 const Numbers: React.FC = () => {
-  const { mode, firstValue, secondValue, operator, resultValue } = useAppSelector((state) => state.calculator);
+  const { mode, firstValue, secondValue, operator } = useAppSelector((state) => state.calculator);
   const dispatch = useAppDispatch();
 
   const handleClick = (value: string) => {

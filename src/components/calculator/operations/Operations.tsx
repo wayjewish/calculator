@@ -1,10 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import Button from '../../ui/buttons/default/Button';
-
-import styles from './Operations.module.scss';
-import { ModeId } from '../../mode/types';
 import {
   calculate,
   setFirstValue,
@@ -12,12 +8,18 @@ import {
   setResultValue,
   setSecondValue,
 } from '../../../store/features/calculatorSlice';
+import { ModeId } from '../../mode/types';
+import { CalcOperator } from '../types';
+
+import Button from '../../ui/buttons/default/Button';
+
+import styles from './Operations.module.scss';
 
 const Operations: React.FC = () => {
   const { mode, firstValue, secondValue, operator, resultValue } = useAppSelector((state) => state.calculator);
   const dispatch = useAppDispatch();
 
-  const handleClick = (value: string) => {
+  const handleClick = (value: CalcOperator) => {
     dispatch(setOperator(value));
 
     switch (true) {
@@ -47,10 +49,10 @@ const Operations: React.FC = () => {
 
   return (
     <div className={cx(styles.operations, { [styles.operations_disabled]: mode === ModeId.constructor })}>
-      <Button onClick={() => handleClick('/')}>/</Button>
-      <Button onClick={() => handleClick('х')}>х</Button>
-      <Button onClick={() => handleClick('-')}>-</Button>
-      <Button onClick={() => handleClick('+')}>+</Button>
+      <Button onClick={() => handleClick(CalcOperator.division)}>{CalcOperator.division}</Button>
+      <Button onClick={() => handleClick(CalcOperator.multiplication)}>{CalcOperator.multiplication}</Button>
+      <Button onClick={() => handleClick(CalcOperator.subtraction)}>{CalcOperator.subtraction}</Button>
+      <Button onClick={() => handleClick(CalcOperator.addition)}>{CalcOperator.addition}</Button>
     </div>
   );
 };
