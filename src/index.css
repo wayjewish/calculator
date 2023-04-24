@@ -19,6 +19,10 @@ body {
 	color: #000000;
 }
 
+.body_dragging * {
+  cursor: move!important;
+}
+
 a {
   text-decoration: none;
   color: inherit;
