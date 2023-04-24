@@ -1,5 +1,4 @@
 import React from 'react';
-import cx from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { calculate, setFirstValue, setResultValue, setSecondValue } from '../../../store/features/calculatorSlice';
 import { ModeId } from '../../mode/types';
@@ -13,6 +12,8 @@ const Equals: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const handleClick = () => {
+    if (mode === ModeId.constructor) return;
+
     switch (true) {
       case resultValue !== null:
         dispatch(setFirstValue(resultValue));
@@ -32,7 +33,7 @@ const Equals: React.FC = () => {
   };
 
   return (
-    <div className={cx(styles.equals, { [styles.equals_disabled]: mode === ModeId.constructor })}>
+    <div className={styles.equals}>
       <Button color="blue" onClick={() => handleClick()}>
         =
       </Button>

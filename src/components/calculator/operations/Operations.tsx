@@ -1,5 +1,4 @@
 import React from 'react';
-import cx from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import {
   calculate,
@@ -20,6 +19,8 @@ const Operations: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const handleClick = (value: CalcOperator) => {
+    if (mode === ModeId.constructor) return;
+
     dispatch(setOperator(value));
 
     switch (true) {
@@ -48,7 +49,7 @@ const Operations: React.FC = () => {
   };
 
   return (
-    <div className={cx(styles.operations, { [styles.operations_disabled]: mode === ModeId.constructor })}>
+    <div className={styles.operations}>
       <Button onClick={() => handleClick(CalcOperator.division)}>{CalcOperator.division}</Button>
       <Button onClick={() => handleClick(CalcOperator.multiplication)}>{CalcOperator.multiplication}</Button>
       <Button onClick={() => handleClick(CalcOperator.subtraction)}>{CalcOperator.subtraction}</Button>

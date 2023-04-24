@@ -1,5 +1,4 @@
 import React from 'react';
-import cx from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import Button from '../../ui/buttons/default/Button';
 
@@ -12,6 +11,8 @@ const Numbers: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const handleClick = (value: string) => {
+    if (mode === ModeId.constructor) return;
+
     switch (true) {
       case firstValue === null:
         dispatch(setFirstValue(value));
@@ -29,7 +30,7 @@ const Numbers: React.FC = () => {
   };
 
   return (
-    <div className={cx(styles.numbers, { [styles.numbers_disabled]: mode === ModeId.constructor })}>
+    <div className={styles.numbers}>
       <Button onClick={() => handleClick('7')}>7</Button>
       <Button onClick={() => handleClick('8')}>8</Button>
       <Button onClick={() => handleClick('9')}>9</Button>

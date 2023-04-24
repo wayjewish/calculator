@@ -3,10 +3,5 @@
   grid-template-columns : repeat(4, 1fr);
   gap: 8px;
   width: 100%;
-
-  &_disabled {
-    pointer-events: none;
-  }
-
 }
 
