@@ -1,0 +1,29 @@
+.insertPoint {
+  position: relative;
+  top: -4px;
+  left: -5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(100% + 10px);
+  height: 1px;
+  margin-bottom: -1px;
+
+  background: #5D5FEF;
+
+  &_last {
+    top: 0;
+    bottom: -4px;
+  }
+
+  &__square {
+    width: 4px;
+    height: 4px;
+
+    background: #5D5FEF;
+    transform: rotate(45deg);
+  }
+}
+
+

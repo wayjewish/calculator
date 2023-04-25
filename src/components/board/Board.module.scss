@@ -1,0 +1,16 @@
+.board {
+  display: flex;
+  flex-direction: column;
+
+  width: 240px;
+  height: 100%;
+}
+
+.board__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  width: 100%;
+  height: auto;
+}
