@@ -96,11 +96,9 @@ const getConfig = (mode?: Mode): WebpackConfiguration => {
   };
 
   if (isProd) {
-    console.log({ ...config, ...prodConfig });
     return { ...config, ...prodConfig };
   }
 
-  console.log({ ...config, ...devConfig });
   return { ...config, ...devConfig };
 };
 
