@@ -1,28 +1,30 @@
 import path from 'path';
-import TerserPlugin from 'terser-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import HtmlPlugin from 'html-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 
-export default (env: any, argv: any) => {
-  const mode = (argv && argv.mode) || 'development';
+import type { Configuration } from 'webpack';
+import type { Configuration as DevServerConfiguration } from 'webpack-dev-server';
+
+export interface WebpackConfiguration extends Configuration {
+  devServer?: DevServerConfiguration;
+}
+
+type Mode = 'none' | 'development' | 'production';
+
+const getConfig = (mode?: Mode): WebpackConfiguration => {
+  const isProd = mode === 'production';
+  console.log('isProd', isProd);
+  const styleLoader = isProd ? MiniCssExtractPlugin.loader : 'style-loader';
 
   const CSSModuleLoader = {
     loader: 'css-loader',
     options: {
-      modules: {
-        localIdentName: '[local]_[hash]',
-      },
-      importLoaders: 2,
-    },
-  };
-
-  const CSSLoader = {
-    loader: 'css-loader',
-    options: {
-      modules: 'global',
-      importLoaders: 2,
+      modules: true,
+      sourceMap: true,
     },
   };
 
@@ -35,16 +37,11 @@ export default (env: any, argv: any) => {
     },
   };
 
-  const styleLoader = mode === 'production' ? MiniCssExtractPlugin.loader : 'style-loader';
-
   const config = {
-    mode: mode,
-    devtool: 'source-map',
-
     entry: './src/index.tsx',
     output: {
-      filename: 'bundle.js',
       path: path.resolve(__dirname, 'dist'),
+      filename: '[name].[contenthash].js',
     },
     resolve: {
       extensions: ['.tsx', '.ts', '.jsx', '.js'],
@@ -52,24 +49,18 @@ export default (env: any, argv: any) => {
     module: {
       rules: [
         {
-          test: /\.(ts|js)x?$/,
+          test: /\.(ts|tsx|js|jsx)$/,
           exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
-              plugins: ['@babel/plugin-transform-runtime'],
-            },
-          },
+          use: ['babel-loader'],
         },
         {
-          test: /\.module\.(sa|sc)ss$/,
+          test: /\.module\.s(a|c)ss$/,
           use: [styleLoader, CSSModuleLoader, PostCSSLoader, 'sass-loader'],
         },
         {
-          test: /\.(sa|sc)ss$/,
-          exclude: /\.module\.(sa|sc|c)ss$/,
-          use: [styleLoader, CSSLoader, PostCSSLoader, 'sass-loader'],
+          test: /\.s(a|c)ss$/,
+          exclude: /\.module\.s(a|c)ss$/,
+          use: [styleLoader, 'css-loader', PostCSSLoader, 'sass-loader'],
         },
         {
           test: /\.module\.css$/,
@@ -78,7 +69,7 @@ export default (env: any, argv: any) => {
         {
           test: /\.css$/,
           exclude: /\.module\.css$/,
-          use: [styleLoader, CSSLoader, PostCSSLoader],
+          use: [styleLoader, 'css-loader', PostCSSLoader],
         },
         {
           test: /\.(png|jpg|jpeg|gif)$/i,
@@ -91,30 +82,49 @@ export default (env: any, argv: any) => {
       ],
     },
     plugins: [
+      new HtmlWebpackPlugin({
+        template: './src/index.html',
+      }),
+      new MiniCssExtractPlugin({
+        filename: '[name].[contenthash].css',
+      }),
       new CopyPlugin({
         patterns: [{ from: './public', to: 'public' }],
       }),
-      new HtmlPlugin({
-        template: './src/index.html',
-      }),
-      new MiniCssExtractPlugin(),
+      new CleanWebpackPlugin(),
     ],
-    optimization: {
-      minimizer: [
-        new TerserPlugin({
-          extractComments: false,
-        }),
-        new CssMinimizerPlugin(),
-      ],
-    },
-    devServer: {
-      static: path.join(__dirname, 'dist'),
-      port: 4000,
-      open: true,
-      hot: true,
-      historyApiFallback: true,
-    },
   };
 
-  return config;
+  if (isProd) {
+    console.log({ ...config, ...prodConfig });
+    return { ...config, ...prodConfig };
+  }
+
+  console.log({ ...config, ...devConfig });
+  return { ...config, ...devConfig };
+};
+
+const devConfig: WebpackConfiguration = {
+  mode: 'development',
+  devtool: 'source-map',
+  devServer: {
+    static: './dist',
+    port: 4000,
+    open: true,
+    hot: true,
+    historyApiFallback: true,
+  },
+};
+
+const prodConfig: WebpackConfiguration = {
+  mode: 'production',
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
+  },
+};
+
+export default (env: any, argv: any) => {
+  console.log(env, argv);
+  return getConfig(argv.mode);
 };
