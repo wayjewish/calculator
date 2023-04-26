@@ -17,7 +17,6 @@ type Mode = 'none' | 'development' | 'production';
 
 const getConfig = (mode?: Mode): WebpackConfiguration => {
   const isProd = mode === 'production';
-  console.log('isProd', isProd);
   const styleLoader = isProd ? MiniCssExtractPlugin.loader : 'style-loader';
 
   const CSSModuleLoader = {
@@ -123,6 +122,5 @@ const prodConfig: WebpackConfiguration = {
 };
 
 export default (env: any, argv: any) => {
-  console.log(env, argv);
   return getConfig(argv.mode);
 };
